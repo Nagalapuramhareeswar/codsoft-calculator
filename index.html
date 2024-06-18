@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color:#e0e0e0;
+        }
+        .calculator {
+            background-color:#e0e0e0;
+            border-radius: 8px;
+            box-shadow:10px 10px 10px #bebebe,-10px -10px 10px #ffffff;
+            overflow: hidden;
+            width: 500px;
+        }
+        .display {
+            background-color: #000000;
+            color: #fff;
+            text-align: right;
+            padding: 20px;
+            font-size: 3rem;
+            border-bottom: 1px solid #ffffff;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-radius:100%;
+        }
+        .btn {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin:10px;
+            font-size: 1.2em;
+            background-color: #f7f7f7;
+            cursor: pointer;
+            border-radius: 50%;
+            width:50%;
+            box-shadow:5px 5px 5px #bebebe,-5px -5px 5px #ffffff;
+            transition: all 2s;
+            position: relative;
+            left:20px;
+            }
+        .btn:active {
+            box-shadow:inset 5px 5px 2px #bebebe,inset -5px -5px 2px #ffffff;
+            }
+        .equal {
+            grid-row:2 span ;
+            background-color: #00ff22;
+            color: #fff;
+            border-radius: 10px;
+            }
+        .equal:active{
+            background-color: #00ff22;
+            box-shadow:inset 5px 5px 5px  #28682d,inset -5px -5px 5px #a1ff91;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="btn" onclick="clearDisplay()">C</button>
+            <button class="btn" onclick="appendNumber('/')">/</button>
+            <button class="btn" onclick="appendNumber('*')">*</button>
+            <button class="btn" onclick="appendNumber('+')">+</button>
+            <button class="btn" onclick="appendNumber('7')">7</button>
+            <button class="btn" onclick="appendNumber('8')">8</button>
+            <button class="btn" onclick="appendNumber('9')">9</button>
+            <button class="btn" onclick="appendNumber('%')">%</button>
+            <button class="btn" onclick="appendNumber('4')">4</button>
+            <button class="btn" onclick="appendNumber('5')">5</button>
+            <button class="btn" onclick="appendNumber('6')">6</button>
+            <button class="btn" onclick="appendNumber('-')">-</button>
+            <button class="btn" onclick="appendNumber('1')">1</button>
+            <button class="btn" onclick="appendNumber('2')">2</button>
+            <button class="btn" onclick="appendNumber('3')">3</button>
+            <button class="btn equal" onclick="calculateResult()">=</button>
+            <button class="btn" onclick="appendNumber('.')">.</button>
+            <button class="btn" onclick="appendNumber('0')">0</button>
+            <button class="btn" onclick="deleteNumber()">Del</button>
+            </div>
+    </div>
+    <script>
+        let display = document.getElementById('display');
+        let currentInput = '';
+        let isResultDisplayed = false;
+        function appendNumber(number) {
+            if (isResultDisplayed) {
+                currentInput = '';
+                isResultDisplayed = false;
+            }
+            currentInput += number;
+            updateDisplay();
+        }
+        function clearDisplay() {
+            currentInput = '';
+            updateDisplay();
+        }
+        function deleteNumber() {
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay();
+        }
+        function appendPercentage() {
+            try {
+                currentInput = (parseFloat(currentInput) / 100).toString();
+                isResultDisplayed = true;
+            } catch (e) {
+                currentInput = 'Error';
+            }
+            updateDisplay();
+        }
+        function calculateResult() {
+            try {
+                currentInput = eval(currentInput).toString();
+                isResultDisplayed = true;
+            } catch (e) {
+                currentInput = 'Error';
+            }
+            updateDisplay();
+        }
+        function updateDisplay() {
+            display.innerText = currentInput || '0';
+        }
+    </script>
+</body>
+</html>
